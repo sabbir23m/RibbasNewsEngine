@@ -1,0 +1,44 @@
+import { Switch, Route } from "wouter";
+import { queryClient } from "./lib/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/lib/theme-provider";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import HomePage from "@/pages/HomePage";
+import CategoryPage from "@/pages/CategoryPage";
+import SearchPage from "@/pages/SearchPage";
+import NotFound from "@/pages/not-found";
+
+function Router() {
+  return (
+    <Switch>
+      <Route path="/" component={HomePage} />
+      <Route path="/category/:slug" component={CategoryPage} />
+      <Route path="/search" component={SearchPage} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="light" storageKey="ribbas-news-theme">
+        <TooltipProvider>
+          <div className="min-h-screen bg-background flex flex-col">
+            <Header />
+            <div className="flex-1">
+              <Router />
+            </div>
+            <Footer />
+          </div>
+          <Toaster />
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
